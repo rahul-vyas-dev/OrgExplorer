@@ -1,10 +1,10 @@
 import './App.css'
-
+import { HeroSection } from './components/ui/HeroSection'
 function App() {
 
   return (
     <>
-      <h1>Hello, OrgExplorer!</h1>
+      <HeroSection/>
     </>
   )
 }
