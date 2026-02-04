@@ -9,7 +9,7 @@ export const landingImageVariants: LandingImageVariants = {
     },
   
     enter: {
-      opacity: 0.5,
+      opacity: 0.4,
       y: 0,
       scale: 1,
       filter: "blur(0px)",
