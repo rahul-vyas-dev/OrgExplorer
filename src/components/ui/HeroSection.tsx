@@ -17,7 +17,7 @@ export function HeroSection() {
   const image = landingImages[index];
 
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-black">
+    <section className="w-full h-screen overflow-hidden bg-black">
       <AnimatePresence mode="wait">
         <motion.img
           key={image.id}
@@ -25,14 +25,14 @@ export function HeroSection() {
           alt={image.alt}
           aria-label={image.ariaLabel}
           title={image.title}
-          className="absolute inset-0 w-full h-full bg-cover bg-center"
+          className="inset-0 w-full h-full bg-cover bg-center"
           style={{ objectFit: image.objectFit }}
           variants={landingImageVariants}
           initial="initial"
           animate="enter"
           exit="exit"
         />
-      </AnimatePresence>      
+      </AnimatePresence>
     </section>
   );
 }
