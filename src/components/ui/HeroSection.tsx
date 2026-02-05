@@ -2,6 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { landingImages } from "@/data/const/landingImages";
 import { landingImageVariants } from "@/data/const/landingImageVariants";
 import { useEffect, useState } from "react";
+import { Button } from "./Button";
+import { Compass, Github } from "lucide-react";
 
 export function HeroSection() {
   const [index, setIndex] = useState(0);
@@ -33,12 +35,13 @@ export function HeroSection() {
           exit="exit"
         />
       </AnimatePresence>
-      <div className="relative z-10 flex items-center justify-center w-4/5 h-full flex-col gap-10">
+      <div className="relative z-10 flex items-center justify-center w-4/5 h-fit mt-[30vh] flex-col gap-10">
         <h1 className="md:text-[5vw] text-[5.4vw] font-bold text-gray-50 leading-none text-center ">
           <div className="appear block text-shadow-2xs text-shadow-zinc-700">
             <span>The </span>
             <span> &nbsp;modern</span>
             <span> &nbsp;way</span>
+            <span> &nbsp;to</span>
             <span> &nbsp;understand</span>
             <span> &nbsp;open-source</span>
             <span> &nbsp;organizations</span>
@@ -48,6 +51,14 @@ export function HeroSection() {
           <span className="block">Explore GitHub activity, contributors, and repositories through</span>
           <span className="block"> interactive, relationship-driven visualizations.</span>
         </h3>
+      </div>
+      <div className="relative z-10 flex items-center justify-center w-4/5 h-auto mt-8 flex-col md:flex-row gap-10">
+        <Button className="w-full" aria-label="Explore organization" title="Explore organization" variant="ghost" size="lg" rightIcon={<Compass />}>
+          <b>Explore an organization</b>
+        </Button>
+        <Button className="w-full" aria-label="View on GitHub" title="View on GitHub" variant="ghost" size="lg" rightIcon={<Github />}>
+          <b>View on GitHub</b>
+        </Button>
       </div>
     </section>
   );
