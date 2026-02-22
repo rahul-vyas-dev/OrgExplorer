@@ -1,0 +1,197 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+language: en
+early_access: true
+
+chat:
+  auto_reply: true
+
+issue_enrichment:
+  labeling:
+    auto_apply_labels: true
+    labeling_instructions:
+      - label: bug
+        instructions: >
+          Runtime errors, incorrect analytics calculations,
+          graph mis-rendering, API failures, broken UI,
+          data mismatch between REST and GraphQL sources.
+      - label: enhancement
+        instructions: >
+          Improvements to visualization performance,
+          contributor intelligence, dashboard UX,
+          analytics accuracy, architectural refactors.
+      - label: performance
+        instructions: >
+          Issues related to large org rendering,
+          heavy graph nodes, slow API responses,
+          excessive re-renders, Lighthouse score drops.
+      - label: security
+        instructions: >
+          GitHub token exposure, API misuse,
+          unsafe client-side logic,
+          improper validation, dependency vulnerabilities.
+      - label: documentation
+        instructions: >
+          README updates, architecture docs,
+          API usage explanation, onboarding improvements.
+
+  planning:
+    enabled: true
+    auto_planning:
+      enabled: true
+      labels:
+        - "plan-me"
+        - "feature"
+        - "!no-plan"
+
+reviews:
+  profile: assertive
+
+  auto_review:
+    enabled: true
+    drafts: false
+    ignore_title_keywords:
+      - "WIP"
+    base_branches:
+      - main
+      - develop
+
+  high_level_summary: true
+  sequence_diagrams: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  changed_files_summary: true
+  request_changes_workflow: true
+
+  pre_merge_checks:
+    description:
+      mode: warning
+    docstrings:
+      mode: off
+
+  path_filters:
+    - "!**/node_modules/**"
+    - "!**/.next/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/.expo/**"
+
+  tools:
+    eslint:
+      enabled: true
+    biome:
+      enabled: true
+    github-checks:
+      enabled: true
+      timeout_ms: 90000
+    markdownlint:
+      enabled: true
+    languagetool:
+      enabled: true
+      level: default
+    yamllint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    checkov:
+      enabled: true
+
+  labeling_instructions:
+    - label: Typescript Lang
+      instructions: Apply when TypeScript or JavaScript files are modified.
+    - label: Documentation
+      instructions: Apply when Markdown or documentation files are modified.
+    - label: Linter
+      instructions: Apply when PR fixes linting issues.
+    - label: Config
+      instructions: Apply when config files (tsconfig, eslint, etc.) are modified.
+
+  instructions: >
+    OrgExplorer is a GitHub organization intelligence platform.
+    During review, prioritize:
+
+    - Accuracy of analytics calculations (stars, contributors, trends).
+    - Correct API pagination handling (GitHub REST / GraphQL).
+    - Proper caching strategy (ISR, SWR, React Query).
+    - Avoid unnecessary re-renders in graph/visualization components.
+    - Ensure heavy data transformations are memoized.
+    - Confirm Lighthouse performance best practices.
+    - Prevent exposure of API keys or tokens.
+    - Validate all external inputs before rendering.
+    - Ensure no business logic exists inside UI components.
+    - Look for data duplication across services.
+    - Suggest improvements for scalability.
+    - Suggest proper error boundaries and loading states.
+    - Verify all critical features have automated tests.
+    - Flag unoptimized graph rendering or large DOM trees.
+    - Ensure documentation reflects architecture decisions.
+
+  path_instructions:
+
+    - path: "**/*.{ts,tsx}"
+      instructions: |
+        NextJS:
+        - Ensure "use client" is used only when necessary.
+        - Prefer Server Components when possible.
+        - Avoid unnecessary client-side API calls.
+        - Follow NextJS app router best practices.
+        - Ensure dynamic routes are optimized.
+
+        TypeScript:
+        - No usage of 'any'.
+        - Use strict typing for API responses.
+        - Prefer utility types and generics.
+        - Use 'import type' for type-only imports.
+        - Avoid deep nested types without reason.
+
+        Performance:
+        - Memoize expensive computations.
+        - Avoid large dependency arrays in hooks.
+        - Prevent excessive graph re-renders.
+        - Lazy-load heavy visualization libraries.
+        - Use dynamic imports where applicable.
+
+        Security:
+        - No exposed GitHub tokens.
+        - No client-side secret usage.
+        - Sanitize any user-provided org input.
+        - Validate API responses before usage.
+
+        Architecture:
+        - UI should not contain business logic.
+        - Services should handle API and transformation.
+        - Components must remain reusable and isolated.
+
+    - path: "**/*.test.{ts,tsx}"
+      instructions: |
+        Tests must:
+        - Cover analytics calculations.
+        - Cover edge cases (empty org, 0 repos, API failures).
+        - Validate contributor ranking logic.
+        - Test loading and error states.
+        - Avoid tautological tests.
+        - Use clear and descriptive test names.
+
+    - path: "**/*.md"
+      instructions: |
+        Ensure:
+        - Clear explanation of OrgExplorer architecture.
+        - API usage documented.
+        - Setup instructions accurate.
+        - Contribution guidelines present.
+        - No spelling errors.
+
+    - path: '**/*.{css,scss}'
+      instructions: |
+        CSS & Styling:
+        - The code adheres to best practices associated with CSS.
+        - Look for responsive design issues.
+
+    - path: "assets/**/*"
+      instructions: |
+        Ensure:
+        - SVGs are optimized.
+        - No excessively large images.
+        - Icons are consistent.
+        - Graph assets are compressed.
