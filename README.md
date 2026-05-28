@@ -71,21 +71,25 @@ TODO: List your main features here:
 TODO: Update based on your project
 
 ### Frontend
+
 - React / Next.js / Flutter / React Native
 - TypeScript
 - TailwindCSS
 
 ### Backend
+
 - Flask / FastAPI / Node.js / Supabase
 - Database: PostgreSQL / SQLite / MongoDB
 
 ### AI/ML (if applicable)
+
 - LangChain / LangGraph / LlamaIndex
 - Google Gemini / OpenAI / Anthropic Claude
 - Vector Database: Weaviate / Pinecone / Chroma
 - RAG / Prompt Engineering / Agent Frameworks
 
 ### Blockchain (if applicable)
+
 - Solidity / solana / cardano / ergo Smart Contracts
 - Hardhat / Truffle / foundry
 - Web3.js / Ethers.js / Wagmi
@@ -98,21 +102,21 @@ TODO: Update based on your project
 TODO: Complete applicable items based on your project type
 
 - [ ] **The protocol** (if applicable):
-   - [ ] has been described and formally specified in a paper.
-   - [ ] has had its main properties mathematically proven.
-   - [ ] has been formally verified.
+  - [ ] has been described and formally specified in a paper.
+  - [ ] has had its main properties mathematically proven.
+  - [ ] has been formally verified.
 - [ ] **The smart contracts** (if applicable):
-   - [ ] were thoroughly reviewed by at least two knights of The Stable Order.
-   - [ ] were deployed to: [Add deployment details]
+  - [ ] were thoroughly reviewed by at least two knights of The Stable Order.
+  - [ ] were deployed to: [Add deployment details]
 - [ ] **The mobile app** (if applicable):
-   - [ ] has an _About_ page containing the Stability Nexus's logo and pointing to the social media accounts of the Stability Nexus.
-   - [ ] is available for download as a release in this repo.
-   - [ ] is available in the relevant app stores.
+  - [ ] has an _About_ page containing the Stability Nexus's logo and pointing to the social media accounts of the Stability Nexus.
+  - [ ] is available for download as a release in this repo.
+  - [ ] is available in the relevant app stores.
 - [ ] **The AI/ML components** (if applicable):
-   - [ ] LLM/model selection and configuration are documented.
-   - [ ] Prompts and system instructions are version-controlled.
-   - [ ] Content safety and moderation mechanisms are implemented.
-   - [ ] API keys and rate limits are properly managed.
+  - [ ] LLM/model selection and configuration are documented.
+  - [ ] Prompts and system instructions are version-controlled.
+  - [ ] Content safety and moderation mechanisms are implemented.
+  - [ ] API keys and rate limits are properly managed.
 
 ---
 
@@ -135,12 +139,14 @@ TODO: Add your system architecture diagram here
 ```
 
 You can create architecture diagrams using:
+
 - [Draw.io](https://draw.io)
 - [Excalidraw](https://excalidraw.com)
 - [Lucidchart](https://lucidchart.com)
 - [Mermaid](https://mermaid.js.org) (for code-based diagrams)
 
 Example structure to include:
+
 - Frontend components
 - Backend services
 - Database architecture
@@ -241,8 +247,8 @@ For detailed setup instructions, please refer to our [Installation Guide](./docs
 
 TODO: Add screenshots showcasing your application
 
-|  |  |  |
-|---|---|---|
+|              |              |              |
+| ------------ | ------------ | ------------ |
 | Screenshot 1 | Screenshot 2 | Screenshot 3 |
 
 ---
@@ -277,4 +283,4 @@ Thanks a lot for spending your time helping TODO grow. Keep rocking 🥂
 
 [![Contributors](https://contrib.rocks/image?repo=AOSSIE-Org/TODO)](https://github.com/AOSSIE-Org/TODO/graphs/contributors)
 
-© 2025 AOSSIE 
+© 2025 AOSSIE

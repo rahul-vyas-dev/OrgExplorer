@@ -50,12 +50,12 @@ Before opening an issue, search existing ones to avoid duplicates. Useful bug re
 
 OrgExplorer is a **single-package frontend** application:
 
-| Area | Stack |
-|------|--------|
-| UI | [React](https://react.dev/) 19 |
-| Language | [TypeScript](https://www.typescriptlang.org/) |
-| Build & dev server | [Vite](https://vite.dev/) (with `@vitejs/plugin-react`) |
-| Linting | [ESLint](https://eslint.org/) 9 (flat config in `eslint.config.js`) |
+| Area               | Stack                                                               |
+| ------------------ | ------------------------------------------------------------------- |
+| UI                 | [React](https://react.dev/) 19                                      |
+| Language           | [TypeScript](https://www.typescriptlang.org/)                       |
+| Build & dev server | [Vite](https://vite.dev/) (with `@vitejs/plugin-react`)             |
+| Linting            | [ESLint](https://eslint.org/) 9 (flat config in `eslint.config.js`) |
 
 Approximate layout:
 
@@ -163,14 +163,14 @@ Fix any ESLint or TypeScript errors reported by these commands.
 
 Conventional prefixes help scan history:
 
-| Prefix | Use for |
-|--------|---------|
-| `feat:` | New user-facing behavior |
-| `fix:` | Bug fixes |
-| `docs:` | Documentation only |
-| `style:` | Formatting, no logic change |
-| `refactor:` | Internal restructuring |
-| `chore:` | Tooling, config, dependencies |
+| Prefix      | Use for                       |
+| ----------- | ----------------------------- |
+| `feat:`     | New user-facing behavior      |
+| `fix:`      | Bug fixes                     |
+| `docs:`     | Documentation only            |
+| `style:`    | Formatting, no logic change   |
+| `refactor:` | Internal restructuring        |
+| `chore:`    | Tooling, config, dependencies |
 
 Example:
 
@@ -224,17 +224,21 @@ Use rebase or merge according to what maintainers prefer; rebasing keeps history
 
 ```markdown
 ## Description
+
 Brief summary of changes.
 
 ## Related issue
+
 Fixes #23
 
 ## Testing
+
 - `npm run lint`
 - `npm run build`
 - Manual: …
 
 ## Checklist
+
 See PR template.
 ```
 
