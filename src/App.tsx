@@ -1,12 +1,13 @@
 import "./App.css";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
+import { HomePage } from "./pages/LandingPage";
 
 function App() {
   return (
     <>
       <Header></Header>
-      <h1>Hello, OrgExplorer!</h1>
+      <HomePage/>
       <Footer></Footer>
     </>
   );
