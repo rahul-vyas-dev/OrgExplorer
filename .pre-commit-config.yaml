@@ -23,7 +23,7 @@ repos:
       - id: check-merge-conflict
       - id: check-added-large-files
       - id: mixed-line-ending
-        args: ['--fix=lf']
+        args: ["--fix=lf"]
 
   # ----------------------------------
   # 2. Config & data files validation
@@ -42,11 +42,11 @@ repos:
     rev: v1.4.0
     hooks:
       - id: detect-secrets
-  
+
   # args: ['--baseline', '.secrets.baseline'] (Maintainers should add a .secrets.baseline file for secret scanning.)
 
 # ==============================================================================
-# IMPORTANT: 
+# IMPORTANT:
 # Pre-commit runs locally every time you commit; only simple logic should be included here.
 # Heavy operations should be handled by CI/CD pipelines (GitHub Actions, etc.)
 # ==============================================================================

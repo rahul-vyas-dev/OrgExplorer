@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'VERSION'
+      - "VERSION"
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ jobs:
   release:
     if: ${{ github.repository_owner == 'AOSSIE-Org' }}
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -62,16 +62,16 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const version = 'v${{ steps.get_version.outputs.version }}';
-            
+
             // Get all releases
             const { data: releases } = await github.rest.repos.listReleases({
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-            
+
             // Find the draft release
             const draftRelease = releases.find(release => release.draft === true);
-            
+
             if (draftRelease) {
               console.log(`Found draft release: ${draftRelease.name}`);
               

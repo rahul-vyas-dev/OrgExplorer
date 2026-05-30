@@ -173,7 +173,7 @@ reviews:
         - Ensure that "use client" is being used
         - Ensure that only features that allow pure client-side rendering are used
         - NextJS best practices (including file structure, API routes, and static generation methods) are used.
-      
+
         TypeScript:
         - Avoid 'any', use explicit types
         - Prefer 'import type' for type imports
@@ -217,7 +217,7 @@ reviews:
     - path: "**/*.{py}"
       instructions: |
         Python:
-        - Check for major PEP 8 violations and Python best practices. 
+        - Check for major PEP 8 violations and Python best practices.
 
     # Solidity Smart Contract files
     - path: "**/*.sol"
@@ -244,7 +244,6 @@ reviews:
             - Integer overflows/underflows (if using unchecked blocks)
             - Front-running risks where applicable
 
-
     # Javascript/Typescript test files
     - path: "**/*.test.{ts,tsx,js,jsx}"
       instructions: |
@@ -254,7 +253,7 @@ reviews:
         - Async behavior is properly tested
         - Accessibility testing is included
         - Test descriptions are sufficiently detailed to clarify the purpose of each test
-        - The tests are not tautological 
+        - The tests are not tautological
 
     # Solidity test files
     - path: "**/*.test.{sol}"
@@ -268,7 +267,6 @@ reviews:
         - Adequate test updates whenever contract logic is modified.
         - Deterministic behavior (tests should not rely on implicit execution order or shared mutable state).
         - Clear and descriptive test names that reflect the intended behavior being validated.
-
 
     # Asset files (images, fonts, etc.)
     - path: "assets/**/*"

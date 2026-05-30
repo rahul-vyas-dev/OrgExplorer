@@ -93,13 +93,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const prBody = context.payload.pull_request.body || '';
-            
+
             // Match patterns: Fixes #123, Closes #123, Resolves #123, etc.
             const issuePatterns = [
               /(?:fix|fixes|fixed|close|closes|closed|resolve|resolves|resolved)\s+#(\d+)/gi,
               /#(\d+)/g
             ];
-            
+
             let issueNumber = null;
             for (const pattern of issuePatterns) {
               const match = prBody.match(pattern);
@@ -109,7 +109,7 @@ jobs:
                 break;
               }
             }
-            
+
             core.setOutput('issue_number', issueNumber || '');
             return issueNumber;
 
@@ -121,7 +121,7 @@ jobs:
           script: |
             const issueNumber = '${{ steps.extract-issue.outputs.issue_number }}';
             const prNumber = context.payload.pull_request.number;
-            
+
             try {
               const issue = await github.rest.issues.get({
                 owner: context.repo.owner,
@@ -185,7 +185,7 @@ jobs:
           script: |
             const prNumber = context.payload.pull_request.number;
             const changedFiles = JSON.parse('${{ steps.changed-files.outputs.files }}');
-            
+
             const fileLabels = [];
             const labelMappings = {
               'documentation': ['.md', 'README', 'CONTRIBUTING', 'LICENSE', '.txt'],
@@ -200,7 +200,7 @@ jobs:
               'docker': ['Dockerfile', 'docker-compose', '.dockerignore'],
               'ci-cd': ['.github/', '.gitlab-ci', 'Jenkinsfile', '.circleci']
             };
-            
+
             for (const file of changedFiles) {
               for (const [label, patterns] of Object.entries(labelMappings)) {
                 for (const pattern of patterns) {
@@ -212,7 +212,7 @@ jobs:
                 }
               }
             }
-            
+
             if (fileLabels.length > 0) {
               console.log(`Applying file-based labels: ${fileLabels.join(', ')}`);
               await github.rest.issues.addLabels({
@@ -237,12 +237,12 @@ jobs:
               repo: context.repo.repo,
               pull_number: prNumber
             });
-            
+
             const additions = pr.data.additions;
             const deletions = pr.data.deletions;
             const totalChanges = additions + deletions;
             console.log(`PR has ${additions} additions and ${deletions} deletions (${totalChanges} total changes)`);
-            
+
             let sizeLabel = '';
             if (totalChanges <= 10) {
               sizeLabel = 'size/XS';
@@ -255,19 +255,19 @@ jobs:
             } else {
               sizeLabel = 'size/XL';
             }
-            
+
             console.log(`Applying size label: ${sizeLabel}`);
-            
+
             const currentLabels = await github.rest.issues.listLabelsOnIssue({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber
             });
-            
+
             const sizeLabelsToRemove = currentLabels.data
               .map(label => label.name)
               .filter(name => name.startsWith('size/'));
-            
+
             for (const label of sizeLabelsToRemove) {
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
@@ -276,7 +276,7 @@ jobs:
                 name: label
               });
             }
-            
+
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -294,7 +294,7 @@ jobs:
           script: |
             const prNumber = context.payload.pull_request.number;
             const prAuthor = context.payload.pull_request.user.login;
-            
+
             try {
               const commits = await github.rest.repos.listCommits({
                 owner: context.repo.owner,
