@@ -51,7 +51,7 @@ export default function OrgSearchBox({
             value={input}
             autoComplete="off"
             aria-label="Search GitHub organization"
-            placeholder="Enter GitHub Organization Name..."
+            placeholder="AOSSIE-Org, StabilityNexus, DjedAlliance.."
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => {
               setTimeout(() => {
