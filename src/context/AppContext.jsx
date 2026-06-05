@@ -57,11 +57,12 @@ export function AppProvider({ children }) {
       const prev  = JSON.parse(localStorage.getItem('oe_recent') || '[]')
       const entry = orgNames.join(', ')
       localStorage.setItem('oe_recent', JSON.stringify([...new Set([entry, ...prev])].slice(0, 6)))
-
+      return true
     } catch (err) {
       setError(err.message === 'RATE_LIMIT'
         ? 'GitHub API rate limit reached. Add a PAT in Settings for 5,000 req/hr.'
         : err.message)
+      return false
     } finally {
       setLoading(false); setLoadMsg('')
     }

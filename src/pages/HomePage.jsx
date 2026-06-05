@@ -35,8 +35,8 @@ export default function HomePage() {
   const go = async (targets) => {
     const orgs = targets || (chips.length ? chips : input.trim() ? [input.trim()] : [])
     if (!orgs.length) return
-    await explore(orgs)
-    navigate('/overview')
+    const success = await explore(orgs)
+    if(success) navigate('/overview')
   }
 
   return (
