@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react'
-import { FiDownload } from 'react-icons/fi'
+import { FiDatabase, FiDownload } from 'react-icons/fi'
 import { useApp } from '../context/AppContext'
 import { C, SortTh, PageTitle, LoadMore } from '../components/UI'
 import { useSortedData } from '../hooks/useSortedData'
 import { computeBusFactor, exportContributorsCSV } from '../services/analytics'
+import { useNavigate } from 'react-router-dom'
+import EmptyStateCard from '../components/EmptyStateCard'
 
 export default function ContributorsPage() {
   const { model } = useApp()
@@ -12,6 +14,7 @@ export default function ContributorsPage() {
 
   if (!model) return null
   const { contributors } = model
+  const navigate = useNavigate()
 
   const busFactor  = useMemo(() => computeBusFactor(contributors), [contributors])
   const topActive  = contributors.slice(0, 10).filter(c => c.freshness > 50).length
@@ -122,51 +125,69 @@ export default function ContributorsPage() {
             {filtered.length} contributors — no rank column by design
           </span>
         </div>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr>
-              <SortTh label="Contributor"           sortKey="login"        sortConfig={sortConfig} onSort={onSort} />
-              <SortTh label="Total Contributions"   sortKey="totalContribs" sortConfig={sortConfig} onSort={onSort} />
-              <SortTh label="Repos Contributed To"  sortKey="repos"         sortConfig={sortConfig} onSort={onSort} />
-              <SortTh label="Orgs"                  sortKey="orgs"          sortConfig={sortConfig} onSort={onSort} />
-              <SortTh label="Last Active"            sortKey="lastActive"   sortConfig={sortConfig} onSort={onSort} />
-              <th style={{ padding: '10px 14px', fontSize: 11, color: 'var(--text2)', fontWeight: 600, background: 'var(--surface2)', borderBottom: '1px solid var(--border)', textAlign: 'left' }}>
-                SIGNALS
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {visible.map((c, i) => (
-              <tr key={c.login} style={{ borderBottom: '1px solid var(--border)', background: i % 2 ? 'var(--surface2)' : 'transparent' }}>
-                <td style={{ padding: '10px 14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <img src={c.avatar_url} alt={c.login} style={{ width: 28, height: 28, borderRadius: '50%' }} />
-                    <span style={{ fontSize: 13, fontWeight: 500 }}>{c.login}</span>
-                  </div>
-                </td>
-                <td style={{ padding: '10px 14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <div style={{ width: 80, height: 4, background: 'var(--border)', borderRadius: 2 }}>
-                      <div style={{ width: `${Math.min(100, c.totalContribs / 15)}%`, height: '100%', background: 'var(--accent)', borderRadius: 2 }} />
-                    </div>
-                    <span style={{ fontSize: 13, color: 'var(--text2)' }}>{c.totalContribs.toLocaleString()}</span>
-                  </div>
-                </td>
-                <td style={{ padding: '10px 14px', fontSize: 13, color: 'var(--text2)' }}>{c.repos.length}</td>
-                <td style={{ padding: '10px 14px', fontSize: 13, color: 'var(--text2)' }}>{c.orgs.length}</td>
-                <td style={{ padding: '10px 14px', fontSize: 12, color: 'var(--text2)' }}>{c.lastActive?.slice(0, 10) || '—'}</td>
-                <td style={{ padding: '10px 14px' }}>
-                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                    {c.isConnector && <span style={C.pill('var(--accent)',  'rgba(245,197,24,.12)')}>CONNECTOR</span>}
-                    {c.isCrossOrg  && <span style={C.pill('var(--purple)', 'rgba(168,85,247,.12)')}>CROSS-ORG</span>}
-                    {c.freshness > 70 && <span style={C.pill('var(--green)', 'rgba(34,197,94,.12)')}>ACTIVE</span>}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <LoadMore shown={shown} total={sorted.length} onLoad={() => setShown(s => s + 20)} />
+        {contributors?.length ?
+          (<>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <SortTh label="Contributor" sortKey="login" sortConfig={sortConfig} onSort={onSort} />
+                  <SortTh label="Total Contributions" sortKey="totalContribs" sortConfig={sortConfig} onSort={onSort} />
+                  <SortTh label="Repos Contributed To" sortKey="repos" sortConfig={sortConfig} onSort={onSort} />
+                  <SortTh label="Orgs" sortKey="orgs" sortConfig={sortConfig} onSort={onSort} />
+                  <SortTh label="Last Active" sortKey="lastActive" sortConfig={sortConfig} onSort={onSort} />
+                  <th style={{ padding: '10px 14px', fontSize: 11, color: 'var(--text2)', fontWeight: 600, background: 'var(--surface2)', borderBottom: '1px solid var(--border)', textAlign: 'left' }}>
+                    SIGNALS
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {visible.map((c, i) => (
+                  <tr key={c.login} style={{ borderBottom: '1px solid var(--border)', background: i % 2 ? 'var(--surface2)' : 'transparent' }}>
+                    <td style={{ padding: '10px 14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <img src={c.avatar_url} alt={c.login} style={{ width: 28, height: 28, borderRadius: '50%' }} />
+                        <span style={{ fontSize: 13, fontWeight: 500 }}>{c.login}</span>
+                      </div>
+                    </td>
+                    <td style={{ padding: '10px 14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 80, height: 4, background: 'var(--border)', borderRadius: 2 }}>
+                          <div style={{ width: `${Math.min(100, c.totalContribs / 15)}%`, height: '100%', background: 'var(--accent)', borderRadius: 2 }} />
+                        </div>
+                        <span style={{ fontSize: 13, color: 'var(--text2)' }}>{c.totalContribs.toLocaleString()}</span>
+                      </div>
+                    </td>
+                    <td style={{ padding: '10px 14px', fontSize: 13, color: 'var(--text2)' }}>{c.repos.length}</td>
+                    <td style={{ padding: '10px 14px', fontSize: 13, color: 'var(--text2)' }}>{c.orgs.length}</td>
+                    <td style={{ padding: '10px 14px', fontSize: 12, color: 'var(--text2)' }}>{c.lastActive?.slice(0, 10) || '—'}</td>
+                    <td style={{ padding: '10px 14px' }}>
+                      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                        {c.isConnector && <span style={C.pill('var(--accent)', 'rgba(245,197,24,.12)')}>CONNECTOR</span>}
+                        {c.isCrossOrg && <span style={C.pill('var(--purple)', 'rgba(168,85,247,.12)')}>CROSS-ORG</span>}
+                        {c.freshness > 70 && <span style={C.pill('var(--green)', 'rgba(34,197,94,.12)')}>ACTIVE</span>}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <LoadMore shown={shown} total={sorted.length} onLoad={() => setShown(s => s + 20)} /></>) :
+          (<>
+            <div
+            style={{
+              padding: '32px 24px',
+              maxWidth: 900,
+              margin: '0 auto',
+            }}
+          >
+            <EmptyStateCard
+              SvgIcon={<FiDatabase size={36} color='var(--accent)'/>}
+              title="No contributors found"
+              description="We couldn't find any contributor data for this organization. "
+              buttonText="Go to Home"
+              onButtonClick={() => navigate('/')}/>
+            </div>
+          </>)}
       </div>
     </div>
   )
