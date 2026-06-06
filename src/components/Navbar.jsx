@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { FiSettings, FiZap } from 'react-icons/fi'
 import { useApp } from '../context/AppContext'
+import ThemeToggle from './ThemeToggle'
 
 const LINKS = [
   { to: '/overview',     label: 'Overview'     },
@@ -61,6 +62,7 @@ export default function Navbar() {
             {rateLimit.remaining.toLocaleString()} / {rateLimit.limit.toLocaleString()}
           </div>
         )}
+        <ThemeToggle />
         <button
           onClick={() => navigate('/settings')}
           style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text2)', borderRadius: 6, padding: '5px 10px', fontSize: 12, display: 'flex', alignItems: 'center', gap: 5 }}
