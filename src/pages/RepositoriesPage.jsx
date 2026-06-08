@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react'
-import { FiDownload, FiGrid, FiList } from 'react-icons/fi'
+import { FiDatabase, FiDownload, FiGrid, FiList } from 'react-icons/fi'
 import { useApp } from '../context/AppContext'
 import { C, Badge, HealthBar, SortTh, PageTitle, LoadMore } from '../components/UI'
 import { useSortedData } from '../hooks/useSortedData'
 import { exportReposCSV } from '../services/analytics'
+import EmptyStateCard from '../components/EmptyStateCard'
+import { useNavigate } from 'react-router-dom'
 
 const LIFECYCLES  = ['All','Thriving','Stable','Dormant','Abandoned']
 const LC_ACTIVE   = { Thriving:'var(--green)', Stable:'var(--blue)', Dormant:'var(--amber)', Abandoned:'var(--red)' }
@@ -16,6 +18,7 @@ export default function RepositoriesPage() {
   const [view,      setView]      = useState('grid')
   const [shown,     setShown]     = useState(20)
 
+  const navigate = useNavigate()
   if (!model) return null
   const { allRepos } = model
 
@@ -95,7 +98,8 @@ export default function RepositoriesPage() {
           ))}
         </div>
       </div>
-
+{allRepos?.length ? (
+  <>
       {/* Table view */}
       {view === 'list' && (
         <div style={{ ...C.card, padding: 0, overflowX: 'auto' }}>
@@ -182,7 +186,25 @@ export default function RepositoriesPage() {
           </div>
           <LoadMore shown={shown} total={sorted.length} onLoad={() => setShown(s => s + 20)} />
         </>
-      )}
+          )}
+  </>)
+   : (
+  <div
+    style={{
+      padding: '32px 24px',
+      maxWidth: 900,
+      margin: '0 auto',
+    }}
+  >
+    <EmptyStateCard
+      SvgIcon={<FiDatabase size={36} color="var(--accent)" />}
+      title="No repositories available"
+      description="We couldn't find any repositories for this organization yet."
+      buttonText="Go to Home"
+      onButtonClick={() => navigate('/')}
+    />
+  </div>
+  )}
     </div>
   )
 }
