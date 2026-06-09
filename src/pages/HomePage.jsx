@@ -124,11 +124,19 @@ export default function HomePage() {
     }
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     go();
   };
+
+  const go = async (targets) => {
+    const orgs = targets || (chips.length ? chips : input.trim() ? [input.trim()] : [])
+    if (!orgs.length) return
+    const success = await explore(orgs)
+    if(success) navigate('/overview')
+  }
 
   return (
     <main className="bg-black text-white">

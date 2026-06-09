@@ -1,5 +1,5 @@
 // IndexedDB Cache (L2) 
-const DB_NAME = 'orgexplorer_v2'
+const DB_NAME = 'orgexplorer_cache'
 const STORE   = 'cache'
 const TTL_MS  = 3_600_000 // 1 hour
 

@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { useApp } from '../context/AppContext'
 import { C, PageTitle } from '../components/UI'
+import EmptyStateCard from '../components/EmptyStateCard'
+import { FiDatabase } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 export default function NetworkPage() {
   const { model } = useApp()
@@ -126,7 +129,7 @@ export default function NetworkPage() {
     return () => sim.stop()
   }, [model, showRepos, showContribs])
 
-  if (!model) return null
+  const navigate = useNavigate()
 
   return (
     <div style={{ padding: '32px 24px', maxWidth: 1100, margin: '0 auto' }} className="fade-up">
@@ -154,7 +157,9 @@ export default function NetworkPage() {
       </div>
 
       {/* Canvas */}
-      <div style={{ ...C.card, padding: 0, overflow: 'hidden', position: 'relative' }}>
+      {model.allRepos?.length ? (
+    <>
+        <div style={{ ...C.card, padding: 0, overflow: 'hidden', position: 'relative' }}>
         <svg ref={svgRef} style={{ width: '100%', height: 580, display: 'block', background: 'var(--bg)' }} />
 
         {/* Tooltip */}
@@ -195,6 +200,26 @@ export default function NetworkPage() {
           Drag nodes to reposition — scroll to zoom
         </div>
       </div>
+    </>) :
+    (
+      <>
+      <div
+        style={{
+          padding: '32px 24px',
+          maxWidth: 900,
+          margin: '0 auto',
+        }}
+      >
+        <EmptyStateCard
+          SvgIcon={<FiDatabase size={36} color='var(--accent)'/>}
+          title="No repositories found"
+          description="We couldn't find any repositories in this organization."
+          buttonText="Go to Home"
+          onButtonClick={() => navigate('/')}
+        />
+      </div>
+      </>
+    )}
     </div>
   )
 }
