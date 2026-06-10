@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { FiEye, FiEyeOff, FiTrash2, FiSave, FiRefreshCw } from 'react-icons/fi'
 import { useApp } from '../context/AppContext'
 import { C } from '../components/UI'
 import { cacheClear } from '../services/github'
+import { BsFillInfoSquareFill } from "react-icons/bs";
 
 export default function SettingsPage() {
   const { pat, savePat, rateLimit } = useApp()
-  const [draft,   setDraft]   = useState(pat)
-  const [show,    setShow]    = useState(false)
-  const [saved,   setSaved]   = useState(false)
+  const [draft, setDraft] = useState(pat)
+  const [show, setShow] = useState(false)
+  const [saved, setSaved] = useState(false)
   const [cleared, setCleared] = useState(false)
 
   const handleSave = () => {
@@ -32,6 +33,21 @@ export default function SettingsPage() {
     ? rateLimit.remaining / rateLimit.limit > 0.3 ? 'var(--green)' : 'var(--red)'
     : 'var(--text2)'
 
+  const [open, setOpen] = useState(false)
+  const infoRef = useRef(null)
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (infoRef.current && !infoRef.current.contains(event.target)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   return (
     <div style={{ padding: '32px 24px', maxWidth: 900, margin: '0 auto' }} className="fade-up">
       <h1 style={{ fontSize: 26, fontWeight: 700, marginBottom: 24 }}>Settings</h1>
@@ -45,7 +61,62 @@ export default function SettingsPage() {
           <div style={C.card}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
               <div>
-                <div style={{ fontWeight: 600, fontSize: 15 }}>GitHub Authentication</div>
+                <div
+                  ref={infoRef}
+                  style={{
+                    fontWeight: 600,
+                    fontSize: 15,
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                  }}
+                >
+                  <p>GitHub Authentication</p>
+
+                  <button
+                    onClick={() => setOpen(prev => !prev)}
+                    className="p-2 rounded-full hover:bg-zinc-800 transition"
+                  >
+                    <BsFillInfoSquareFill className="text-white cursor-pointer" />
+                  </button>
+
+                  {open && (
+                    <div
+                      style={{
+                        ...C.card,
+                        position: 'absolute',
+                        top: '130%',
+                        left: 0,
+                        width: '340px',
+                        zIndex: 100,
+                      }}
+                    >
+                      <h4 className='mb-2 text-(--accent) font-semibold'>
+                        PAT Security
+                      </h4>
+
+                      <div className="mb-4 color-(--text) text-xs">
+                        <p>
+                          Your GitHub Personal Access Token (PAT) is stored locally on your
+                          device and is never sent to OrgExplorer servers.
+                        </p>
+
+                        <ul className="list-disc ml-5 text-(--text) mt-1 text-xs">
+                          <li>Stored only in your browser.</li>
+                          <li>Used exclusively for GitHub API authentication.</li>
+                          <li>Never shared with third parties.</li>
+                          <li>Can be removed at any time from Settings.</li>
+                        </ul>
+
+                        <p className='text-(--text2) text-xs mt-2'>
+                          Using a PAT increases GitHub API limits and allows access to
+                          repositories you are authorized to view.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div style={{ fontSize: 12, color: 'var(--text2)', marginTop: 2 }}>Personal Access Token (PAT)</div>
               </div>
               {pat && (
@@ -171,10 +242,10 @@ export default function SettingsPage() {
             <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 16, letterSpacing: '.03em' }}>Architect Meta</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
               {[
-                ['Core Version',    'v2.0.0-stable'],
-                ['Architecture',    'Client-side only, no backend'],
-                ['API strategy',    '53 req/hr unauthenticated'],
-                ['Cache',           'IndexedDB + React Context'],
+                ['Core Version', 'v2.0.0-stable'],
+                ['Architecture', 'Client-side only, no backend'],
+                ['API strategy', '53 req/hr unauthenticated'],
+                ['Cache', 'IndexedDB + React Context'],
               ].map(([k, v]) => (
                 <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
                   <span style={{ color: 'var(--text2)' }}>{k}</span>
