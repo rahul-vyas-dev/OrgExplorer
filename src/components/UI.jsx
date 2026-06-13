@@ -63,12 +63,12 @@ export const C = {
   },
 }
 
-// Lifecycle badge color map
+// Activity badge color map
 const LC = {
   Thriving:  ['#22c55e', 'rgba(34,197,94,.15)'],
-  Stable:    ['#3b82f6', 'rgba(59,130,246,.15)'],
+  Active:    ['#3b82f6', 'rgba(59,130,246,.15)'],
   Dormant:   ['#f59e0b', 'rgba(245,158,11,.15)'],
-  Abandoned: ['#ef4444', 'rgba(239,68,68,.15)'],
+  Hibernating: ['#ef4444', 'rgba(239,68,68,.15)'],
   critical:  ['#ef4444', 'rgba(239,68,68,.15)'],
   high:      ['#f59e0b', 'rgba(245,158,11,.15)'],
   healthy:   ['#22c55e', 'rgba(34,197,94,.15)'],

@@ -8,13 +8,13 @@ import { exportReposCSV } from '../services/analytics'
 import EmptyStateCard from '../components/EmptyStateCard'
 import { useNavigate } from 'react-router-dom'
 
-const LIFECYCLES = ['All', 'Thriving', 'Stable', 'Dormant', 'Abandoned']
-const LC_ACTIVE = { Thriving: 'var(--green)', Stable: 'var(--blue)', Dormant: 'var(--amber)', Abandoned: 'var(--red)' }
+const ACTIVITY_CLASSIFICATIONS = ['All', 'Thriving', 'Active', 'Dormant', 'Hibernating']
+const ACTIVITY_COLORS = { Thriving: 'var(--green)', Active: 'var(--blue)', Dormant: 'var(--amber)', Hibernating: 'var(--red)' }
 
 export default function RepositoriesPage() {
   const { model } = useApp()
   const [search, setSearch] = useState('')
-  const [lifecycle, setLifecycle] = useState('All')
+  const [activityClassification, setActivityClassification] = useState('All')
   const [lang, setLang] = useState('All')
   const [view, setView] = useState('grid')
   const [shown, setShown] = useState(20)
@@ -45,11 +45,11 @@ export default function RepositoriesPage() {
     [allRepos])
 
   const filtered = useMemo(() => allRepos.filter(r =>
-    (lifecycle === 'All' || r.lifecycle === lifecycle) &&
+    (activityClassification === 'All' || r.activityClassification === activityClassification) &&
     (lang === 'All' || r.language === lang) &&
     (!search || r.name.toLowerCase().includes(search.toLowerCase()) ||
       (r.description || '').toLowerCase().includes(search.toLowerCase()))
-  ), [allRepos, lifecycle, lang, search])
+  ), [allRepos, activityClassification, lang, search])
 
   const { sorted, sortConfig, onSort } = useSortedData(filtered, 'healthScore', 'desc')
   const visible = sorted.slice(0, shown)
@@ -60,7 +60,7 @@ export default function RepositoriesPage() {
     ['forks_count', 'Forks'],
     ['open_issues_count', 'Open Issues'],
     ['healthScore', 'Health'],
-    ['lifecycle', 'Lifecycle'],
+    ['activityClassification', 'Activity Classification'],
     ['pushed_at', 'Last Push'],
   ]
 
@@ -80,7 +80,7 @@ export default function RepositoriesPage() {
               </button>
             </div>
           }
-          subtitle="Technical health and lifecycle across all repositories in the portfolio"
+          subtitle="Repository insights and activity classification across all repositories."
           right={
             <span style={{ fontSize: 28, fontWeight: 700, color: 'var(--accent)' }}>
               {filtered.length}
@@ -117,8 +117,8 @@ export default function RepositoriesPage() {
             </div>
 
             <p style={{ fontSize: 13, color: 'var(--text2)', marginBottom: 12 }}>
-              OrgExplorer evaluates repositories using activity, issue health,
-              contributor diversity, and lifecycle status.
+              OrgExplorer evaluates repositories using issue health,
+              contributor diversity, and activity classification status.
             </p>
 
             <div style={{ fontSize: 12, lineHeight: 1.7 }}>
@@ -129,12 +129,12 @@ export default function RepositoriesPage() {
                 <li>Contributor Diversity → 30%</li>
               </ul>
 
-              <strong>Lifecycle Classification</strong>
+              <strong>Activity Classification</strong>
               <ul style={{ marginLeft: 18 }}>
                 <li>🟢 Thriving → Updated within 30 days</li>
-                <li>🔵 Stable → Updated within 90 days</li>
+                <li>🔵 Active → Updated within 90 days</li>
                 <li>🟡 Dormant → Updated within 180 days</li>
-                <li>🔴 Abandoned → No updates for 180+ days</li>
+                <li>🔴 Hibernating → No updates for 180+ days</li>
               </ul>
 
               <strong>Repository Signals</strong>
@@ -172,14 +172,14 @@ export default function RepositoriesPage() {
           </button>
         </div>
         <div style={{ display: 'flex', gap: 6, marginTop: 12, flexWrap: 'wrap' }}>
-          {LIFECYCLES.map(l => (
+          {ACTIVITY_CLASSIFICATIONS.map(l => (
             <button
-              key={l} onClick={() => { setLifecycle(l); setShown(20) }}
+              key={l} onClick={() => { setActivityClassification(l); setShown(20) }}
               style={{
                 padding: '4px 12px', borderRadius: 4, fontSize: 12, fontWeight: 500, cursor: 'pointer',
-                border: lifecycle === l ? 'none' : '1px solid var(--border)',
-                background: lifecycle === l ? (LC_ACTIVE[l] || 'var(--accent)') : 'transparent',
-                color: lifecycle === l ? '#000' : 'var(--text2)',
+                border: activityClassification === l ? 'none' : '1px solid var(--border)',
+                background: activityClassification === l ? (ACTIVITY_COLORS[l] || 'var(--accent)') : 'transparent',
+                color: activityClassification === l ? '#000' : 'var(--text2)',
               }}
             >
               {l}
@@ -211,7 +211,7 @@ export default function RepositoriesPage() {
                       <td style={{ padding: '10px 14px', fontSize: 13, color: 'var(--text2)' }}>{r.forks_count.toLocaleString()}</td>
                       <td style={{ padding: '10px 14px', fontSize: 13, color: r.open_issues_count > 30 ? 'var(--red)' : 'var(--text2)' }}>{r.open_issues_count}</td>
                       <td style={{ padding: '10px 14px', minWidth: 130 }}><HealthBar score={r.healthScore} /></td>
-                      <td style={{ padding: '10px 14px' }}><Badge text={r.lifecycle} /></td>
+                      <td style={{ padding: '10px 14px' }}><Badge text={r.activityClassification} /></td>
                       <td style={{ padding: '10px 14px', fontSize: 12, color: 'var(--text2)' }}>{r.pushed_at?.slice(0, 10)}</td>
                     </tr>
                   ))}
@@ -229,12 +229,10 @@ export default function RepositoriesPage() {
                   <div
                     key={r.id}
                     onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent)'}
-                    onMouseLeave={e => e.currentTarget.style.borderColor =
-                      r.lifecycle === 'Thriving' ? 'rgba(34,197,94,.25)' :
-                        r.lifecycle === 'Abandoned' ? 'rgba(239,68,68,.25)' : 'var(--border)'}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = ACTIVITY_COLORS[r.activityClassification]}
                     style={{
                       ...C.card,
-                      borderColor: r.lifecycle === 'Thriving' ? 'rgba(34,197,94,.25)' : r.lifecycle === 'Abandoned' ? 'rgba(239,68,68,.25)' : 'var(--border)',
+                      borderColor: ACTIVITY_COLORS[r.activityClassification],
                       transition: 'border-color .2s', display: 'flex', flexDirection: 'column', gap: 10,
                     }}
                   >
@@ -243,7 +241,7 @@ export default function RepositoriesPage() {
                         <div style={{ fontWeight: 600, fontSize: 14 }}>{r.name}</div>
                         {r.orgLogin && <div style={{ fontSize: 11, color: 'var(--text2)' }}>{r.orgLogin}</div>}
                       </div>
-                      <Badge text={r.lifecycle} />
+                      <Badge text={r.activityClassification} />
                     </div>
                     <p style={{ fontSize: 12, color: 'var(--text2)', minHeight: 34, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                       {r.description || 'No description provided'}
