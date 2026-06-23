@@ -168,3 +168,28 @@ export function exportTrendsCSV(series) {
   const rows   = series.map(s => [s.date, s.prs_created, s.prs_merged, s.prs_closed, s.issues_created, s.issues_closed])
   download([header, ...rows].map(r => r.join(',')).join('\n'), 'orgexplorer-trends.csv')
 }
+
+export function getTopRepositories(repos, limit = 10) {
+  const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+  return [...repos]
+    .map(repo => {
+      const daysSinceLastPush =
+        (Date.now() - new Date(repo.pushed_at).getTime()) / MS_PER_DAY;
+
+      const activityBonus = 0.5 * Math.max(0, 365 - daysSinceLastPush);
+
+      const score =
+        repo.stargazers_count +
+        repo.forks_count * 2 +
+        repo.watchers_count * 1.5 +
+        activityBonus;
+
+      return {
+        ...repo,
+        score,
+      };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}

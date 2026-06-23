@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import { fetchOrg, fetchRepos, fetchContributors, fetchIssues, } from '../services/github'
-import { buildAnalyticalModel } from '../services/analytics'
+import { buildAnalyticalModel, getTopRepositories } from '../services/analytics'
 
 const Ctx = createContext(null)
 
@@ -83,9 +83,7 @@ export function AppProvider({ children }) {
       setLoadMsg('Fetching contributor data for top repositories...')
       const contribsPerRepo = {}
       for (const org of validOrgs) {
-        const top = (reposPerOrg[org.login] || [])
-          .sort((a, b) => b.stargazers_count - a.stargazers_count)
-          .slice(0, 10)
+        const top = getTopRepositories(reposPerOrg[org.login] || [], 10);
         await Promise.allSettled(top.map(async repo => {
           contribsPerRepo[`${org.login}/${repo.name}`] = await fetchContributors(org.login, repo.name, pat)
         }))
