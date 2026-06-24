@@ -28,7 +28,7 @@ export default function NetworkPage() {
 
     // Top repos and contributors for performance
     const topRepos    = model.allRepos.slice(0, 30)
-    const topContribs = model.contributors.slice(0, 40)
+    const topContribs = model.contributors
 
     const nodes = []
     if (showRepos)    topRepos.forEach(r => nodes.push({ id: `repo:${r.name}`,    type: 'repo',        data: r, ts: new Date(r.pushed_at).getTime() }))

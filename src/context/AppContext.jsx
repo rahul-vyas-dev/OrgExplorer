@@ -84,6 +84,7 @@ export function AppProvider({ children }) {
       const contribsPerRepo = {}
       for (const org of validOrgs) {
         const top = getTopRepositories(reposPerOrg[org.login] || [], 10);
+        reposPerOrg[org.login] = top; // Update to only include top repos
         await Promise.allSettled(top.map(async repo => {
           contribsPerRepo[`${org.login}/${repo.name}`] = await fetchContributors(org.login, repo.name, pat)
         }))
