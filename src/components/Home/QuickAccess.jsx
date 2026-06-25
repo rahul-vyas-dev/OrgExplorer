@@ -13,9 +13,9 @@ export default function QuickAccess({ items, handleSelectOrg }) {
             key={item}
             type="button"
             onClick={() => handleSelectOrg(item)}
-            className="group flex items-center justify-between border border-zinc-900 bg-zinc-950 px-5 py-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-[#FCD34D]"
+            className="group flex items-center justify-between border border-(--border) bg-(--bg) text-(--text) px-5 py-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-[#FCD34D]"
           >
-            <span className="text-sm font-medium text-zinc-300 group-hover:text-[#FCD34D]">
+            <span className="text-sm font-medium group-hover:text-[#FCD34D]">
               {item}
             </span>
 

@@ -62,7 +62,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer role="contentinfo" className="border-t border-zinc-900 bg-black">
+    <footer role="contentinfo" className=" bg-(--bg) text-(--text)">
       <div className="flex w-full flex-col gap-8 px-4 py-8 md:px-6 lg:flex-row lg:items-center lg:justify-between">
         {/* LEFT SECTION */}
         <div className="flex flex-col gap-6">
@@ -107,9 +107,9 @@ export default function Footer() {
                   aria-label={`Visit our ${item.label}`}
                   className="
                     flex h-10 w-10 items-center justify-center
-                    border-2 border-zinc-800
-                    bg-zinc-950
-                    text-zinc-400
+                    border-2 border-(--border)
+                    bg-(--bg)
+                    text-(--text)
                     shadow-[3px_3px_0px_0px_#27272a]
                     transition-all duration-150
                     hover:-translate-x-1

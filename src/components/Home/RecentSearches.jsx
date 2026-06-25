@@ -20,12 +20,12 @@ export default function RecentSearches({ recent, go }) {
             key={r}
             onClick={() => go(r.split(",").map((s) => s.trim()))}
             className={cn(
-              "group flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3",
+              "group flex items-center gap-2 rounded-xl border border-(--border) bg-(--bg) text-(--text) px-4 py-3",
               "transition-all duration-200",
-              "hover:-translate-y-0.5 hover:border-[#FCD34D]/50 hover:bg-zinc-900"
+              "hover:-translate-y-0.5 hover:border-[#FCD34D]/50 hover:bg-(--bg)"
             )}
           >
-            <span className="text-sm font-medium text-zinc-300 transition-colors group-hover:text-[#FCD34D]">
+            <span className="text-sm font-medium transition-colors group-hover:text-[#FCD34D]">
               {r}
             </span>
 

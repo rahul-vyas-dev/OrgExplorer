@@ -29,7 +29,7 @@ const buttonVariants = cva(
           "bg-gray-300 text-black border-2 border-black shadow-[4px_4px_0px_0px_#d1d5db] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#d1d5db] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150",
 
         ghost:
-          "bg-transparent text-white border-2 border-white shadow-[4px_4px_0px_0px_#ffffff] hover:bg-white hover:text-black hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150",
+          "bg-transparent text-(--text) border-2 border-(--border) shadow-[4px_4px_0px_0px_#ffffff] hover:bg-white hover:text-black hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150",
 
         link: "text-blue-500 underline underline-offset-4 font-bold hover:text-blue-400 transition-colors duration-150",
       },

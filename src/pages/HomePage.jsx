@@ -7,7 +7,6 @@ import { useDebounce } from "@/hooks/useDebounce";
 
 import HeroSection from "@/components/home/HeroSection";
 import StatsSection from "@/components/home/StatsSection";
-import OrgExplorerFeatures from "@/components/home/OrgExplorerFeatures";
 
 const quickExploreItems = ["AOSSIE-Org", "vercel", "facebook", "microsoft"];
 
@@ -131,7 +130,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="bg-black text-white">
+    <main className="bg-(--bg) text-(--text) min-h-screen">
       <HeroSection
         input={input}
         setInput={setInput}
@@ -156,12 +155,6 @@ export default function HomePage() {
       />
 
       <StatsSection />
-
-      <section className="relative py-15">
-        <div className="w-full px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
-          <OrgExplorerFeatures />
-        </div>
-      </section>
     </main>
   );
 }

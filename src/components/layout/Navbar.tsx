@@ -1,9 +1,11 @@
-import { FiMenu, FiSettings } from "react-icons/fi";
+import { FiMenu, FiSettings, FiZap } from "react-icons/fi";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import OrgExplorerLogo from "@/assets/logos/org-explorer-logo.svg";
+import { useApp } from '../../context/AppContext'
+import ThemeToggle from '.././ThemeToggle'
 
 const navItems = [
   { label: "Overview", href: "/overview" },
@@ -16,11 +18,13 @@ const navItems = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const { rateLimit } = useApp();
+  const lowLimit = rateLimit && rateLimit.remaining < 15
+  
   return (
     <header
       role="banner"
-      className="sticky top-0 z-50 w-full border-b-2 border-zinc-800 bg-black/95 backdrop-blur supports-backdrop-filter:bg-black/80"
+      className="sticky top-0 z-50 w-full border-b-2 border-(--border) bg-(--bg) text-(--text) backdrop-blur"
     >
       <div className="flex h-20 items-center justify-between px-6 md:px-8">
         {/* LEFT */}
@@ -66,7 +70,14 @@ export default function Navbar() {
         </div>
 
         {/* RIGHT */}
-        <div className="flex items-center gap-3">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
+        {rateLimit && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: lowLimit ? 'var(--red)' : 'var(--text2)' }}>
+            <FiZap size={12} />
+            {rateLimit.remaining.toLocaleString()} / {rateLimit.limit.toLocaleString()}
+          </div>
+        )}
+        <ThemeToggle />
           {/* SETTINGS */}
           <Button variant="ghost" size="icon" aria-label="Settings">
             <Link to={"/settings"}>
@@ -97,7 +108,7 @@ export default function Navbar() {
           id="mobile-navigation"
           aria-label="Mobile Navigation"
           className={cn(
-            "overflow-hidden text-center border-t-2 border-zinc-800 bg-black lg:hidden",
+            "overflow-hidden text-center border-t-2 border-(--border) bg-(--bg) text-(--text) lg:hidden",
             "transition-all duration-300 ease-in-out",
             mobileMenuOpen
               ? "max-h-96 opacity-100 translate-y-0"
